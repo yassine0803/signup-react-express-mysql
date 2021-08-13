@@ -1,8 +1,8 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
+import  express from 'express';
+import  mongoose from 'mongoose';
+import  cors from 'cors';
+import  bodyParser from 'body-parser';
+import  dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
