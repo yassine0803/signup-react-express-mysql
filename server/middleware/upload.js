@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         let extension = file.originalname.split('.')[1];
-        cb(null, `img-${Date.now()}.${extension}`);
+        cb(null, `img-${Date.now()}${Math.floor(Math.random() * 101)*2461}.${extension}`);
     }
 });
 
