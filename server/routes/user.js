@@ -25,7 +25,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router.post('/check-user', (req, res) => {
+router.post('/check-user',async(req, res) => {
     const username = req.body;
     try {
         const oldUser = await UserModal.findOne({ username });
