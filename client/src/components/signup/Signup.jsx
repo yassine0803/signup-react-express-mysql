@@ -77,7 +77,7 @@ const Signup = () => {
         try {
             const { data } = await postData('/users/signup', user);
             localStorage.setItem('profile', JSON.stringify({ ...data }));
-            history.push('/profile');
+            history.push('/profile/'+data.result._id);
         } catch (error) {
             console.log(error);
         }

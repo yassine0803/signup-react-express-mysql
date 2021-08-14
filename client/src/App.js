@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Signup} />
-          <Route path="/profile" exact component={() => user ? <Profile /> :<Redirect to="/" />} />
+          <Route path="/profile/:id" exact component={() => user ? <Profile /> :<Redirect to="/" />} />
         </Switch>
       </BrowserRouter>
     </div>
