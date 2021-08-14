@@ -1,7 +1,36 @@
+@import url(//db.onlinewebfonts.com/c/0b51833ff62e4af8acb5fd3e2bf59e97?family=SF+Pro+Display);
 .root {
   font-family: "Vijaya-Bold";
   width: 355px;
   margin: auto;
+  font-family: "SF Pro Display";
+}
+
+.profil__loader {
+  border: 16px solid #f3f3f3; 
+  border-top: 16px solid #3498db; 
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  margin: auto;
+  margin-top: 40px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile__avatar {
@@ -14,52 +43,109 @@
 .avatar_edit {
   position: absolute;
   z-index: 1;
-  top: 80px;
-  right: 52px;
+  top: 50px;
+  right: 25px;
   width: 100px;
   height: 100px;
   border-radius: 100%;
 }
-.edit_label{
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    margin-bottom: 0;
-    border-radius: 100%;
-    border: 1px solid transparent;
-    cursor: pointer;
-    font-weight: normal;
-    transition: all 0.2s ease-in-out;
+.edit_label {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
 }
-.avatar_upload{
-    width: 100%;
-    height: 100%;
-}
-.edit_input{
-    display: none;
-}
-
-.avatar_preview{
+.avatar_upload {
   width: 100%;
   height: 100%;
 }
-.avatar_preview_new{
+.edit_input {
+  display: none;
+}
+
+.avatar_preview {
+  width: 100%;
+  height: 100%;
+}
+.avatar_preview_new {
   width: 100%;
   height: 100%;
   border-radius: 100%;
-  background-color: rgba(0, 0, 0, 0.774);
+  background-color: rgba(0, 0, 0, 0.863);
 }
 .avatar_iamge {
-  width: 204px;
-  height: 204px;
+  width: 150px;
+  height: 150px;
   border-radius: 100%;
 }
 
-.avatar_iamge_edit{
-  width: 204px;
-  height: 204px;
+.avatar_iamge_edit {
+  width: 150px;
+  height: 150px;
   border-radius: 100%;
   opacity: 0.5;
 }
 
+.profile__gallery {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 200%;
+  height: 400px;
+}
+.profile__gallery .image_container {
+  width: 32%;
+  height: 400px;
+  position: relative;
+}
 
+.profile__gallery .gallery_image {
+  width: 100%;
+  height: 100%;
+}
+
+.image_container .gallery_edit {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  right: 10px;
+  padding: 4px;
+  background-color: white;
+}
+
+.image_container .gallery_edit .gallery_input {
+  display: none;
+}
+
+.image_container .gallery_edit .image_upload {
+  width: 20px;
+  height: 20px;
+}
+
+.profile_name {
+  font-family: inherit;
+  font-size: 22px;
+}
+.profile_username {
+  font-family: inherit;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.edit_button {
+  margin-bottom: 20px;
+  color: white;
+  font-size: 16px;
+  background-color: #615dfa;
+  border: 0;
+  width: 50%;
+  padding: 10px 20px;
+  border-radius: 4px;
+}

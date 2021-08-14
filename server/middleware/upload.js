@@ -7,10 +7,22 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         let extension = file.originalname.split('.')[1];
-        cb(null, `img-${Date.now()}${Math.floor(Math.random() * 101)*2461}.${extension}`);
+        cb(null, `img-${Date.now()}${Math.floor(Math.random() * 101) * 2461}.${extension}`);
     }
 });
 
-const upload = multer({ storage });
+const upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, callback) {
+        var ext = path.extname(file.originalname);
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+            return callback(new Error('Only images are allowed'))
+        }
+        callback(null, true)
+    },
+    limits: {
+        fileSize: 1024 * 1024
+    }
+});
 
 export default upload;

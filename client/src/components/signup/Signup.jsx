@@ -23,10 +23,14 @@ const Signup = () => {
         long: false
     });
     const upload = async (e) => {
-        const fd = new FormData();
-        fd.append('file', e.target.files[0]);
-        const { data } = await uploadImage('/images/upload', fd);
-        return data;
+        try {
+            const fd = new FormData();
+            fd.append('file', e.target.files[0]);
+            const { data } = await uploadImage('/images/upload', fd);
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
 
     }
     const uploadImageProfile = async (e) => {
@@ -36,7 +40,7 @@ const Signup = () => {
 
     const uploadImageGallery = async (e) => {
         const data = await upload(e);
-        setUser(oldUser => ({ ...oldUser, profileImg: oldUser.profileImg, galleryImg: [...oldUser.galleryImg, data.filename] }));
+        setUser(oldUser => ({ ...oldUser, galleryImg: [...oldUser.galleryImg, data.filename] }));
     }
     const checkUsername = async () => {
         const result = await postData('/users/check-user', { username: user.username });
@@ -72,7 +76,7 @@ const Signup = () => {
         try {
             const { data } = await postData('/users/signup', user);
             localStorage.setItem('profile', JSON.stringify({ ...data }));
-            history.push('/profile/'+data.result._id);
+            history.push('/profile/' + data.result._id);
         } catch (error) {
             console.log(error);
         }
