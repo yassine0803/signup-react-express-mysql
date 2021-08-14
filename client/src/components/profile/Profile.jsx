@@ -10,7 +10,7 @@ const Profile = () => {
     const [edit, setEdit] = useState(false);
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
-    
+
     const fetchUser = async () => {
         const { data } = await getData('/users/' + id);
         setUser(data);
@@ -41,8 +41,8 @@ const Profile = () => {
                         }
                     </div>
                 </div>
-                <div className={styles.profile_name}>{user?.name}</div>
-                <div className={styles.profile_username}>@{user.username}</div>
+                <div className={styles.profile_name}>{user?.name}  {edit && <img className={styles.image_upload} src={draw} alt="" />}</div>
+                <div className={styles.profile_username}>@{user.username} {edit && <img className={styles.image_upload} src={draw} alt="" />}</div>
                 <button className={styles.edit_button} onClick={() => setEdit(true)}>Edit Profile</button>
                 {user.galleryImg && user.galleryImg.length > 0 && <div className={styles.profile__gallery}>
 

@@ -133,6 +133,15 @@
   font-family: inherit;
   font-size: 22px;
 }
+
+.profile_name .image_upload{
+  width:10px;
+  height: 10px;
+}
+.profile_username .image_upload{
+  width:8px;
+  height: 8px;
+}
 .profile_username {
   font-family: inherit;
   font-size: 18px;
