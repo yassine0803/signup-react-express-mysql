@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from "react-router-dom";
-import camera from '../../images/camera.png';
+import camera from '../../images/camera_white.png';
 import draw from '../../images/draw.png';
 import { getData, url } from '../../api';
 import styles from './Profile.module.css';
