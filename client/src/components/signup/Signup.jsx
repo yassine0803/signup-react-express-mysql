@@ -4,8 +4,10 @@ import check from '../../images/check.png';
 import cancel from '../../images/cancel.png';
 import { useState } from 'react';
 import { uploadImage, postData } from '../../api';
+import { useHistory } from 'react-router-dom';
 
 const Signup = () => {
+    let history = useHistory();
     const url = process.env.REACT_APP_API_URL || 'http://localhost:5000' ;
     const [user, setUser] = useState({
         name: '',
@@ -29,13 +31,17 @@ const Signup = () => {
 
     }
     const uploadImageProfile = async (e) => {
-        const data = await upload(e);
+        const fd = new FormData();
+        fd.append('file', e.target.files[0]);
+        const { data } = await uploadImage('/images/upload', fd);
         setUser(oldUser => ({ ...oldUser, profileImg: data.filename }));
     }
 
     const uploadImageGallery = async (e) => {
-        const data = await upload(e);
-        setUser(oldUser => ({ ...oldUser, galleryImg: [...oldUser.galleryImg, data.filename] }));
+        const fd = new FormData();
+        fd.append('file', e.target.files[0]);
+        const { data } = await uploadImage('/images/upload', fd);
+        setUser(oldUser => ({ ...oldUser, profileImg: oldUser.profileImg, galleryImg: [...oldUser.galleryImg, data.filename] }));
     }
     const checkUsername = async () => {
         const result = await postData('/users/check-user', { username: user.username });
@@ -68,8 +74,14 @@ const Signup = () => {
     //regester user
     const hundleSubmit = async(e)=>{
         e.preventDefault();
-        const {data} = await postData('/users/signup', user);
+        try {
+            const {data} = await postData('/users/signup', user);
         localStorage.setItem('profile', JSON.stringify({ ...data }));
+        history.push('/profile');
+        } catch (error) {
+            console.log(error);
+        }
+        
     }
     return (
         <div className={styles.root}>
@@ -83,8 +95,8 @@ const Signup = () => {
                     <div className={styles.form__avatar}>
                         {!user.profileImg &&
                             <div className={styles.avatar_edit}>
-                                <input onChange={uploadImageProfile} type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" />
-                                <label className={styles.avatar_label} htmlFor="imageUpload">
+                                <input onChange={uploadImageProfile} type='file' className={styles.avatar_input} id="profileImg" accept=".png, .jpg, .jpeg" />
+                                <label className={styles.avatar_label} htmlFor="profileImg">
                                     <img className={styles.avatar_upload} src={camera} alt="" />
                                 </label>
                             </div>
