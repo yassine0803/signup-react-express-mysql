@@ -25,16 +25,30 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router.post('/check-user',async(req, res) => {
+router.post('/check-user', async (req, res) => {
     console.log(req.body);
-    const {username} = req.body;
+    const { username } = req.body;
     try {
         const oldUser = await UserModal.findOne({ username });
 
         if (oldUser) return res.json({ message: "Username already exists" });
-        res.status(201).json({ message: "new user"});
+        res.status(201).json({ message: "new user" });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
     }
 })
+
+
+//get user info
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const data = await UserModal.findById(id).select({"password": 0});
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+})
 export default router;
+

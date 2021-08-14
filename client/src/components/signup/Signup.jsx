@@ -3,12 +3,11 @@ import camera from '../../images/camera.png';
 import check from '../../images/check.png';
 import cancel from '../../images/cancel.png';
 import { useState } from 'react';
-import { uploadImage, postData } from '../../api';
+import { uploadImage, postData, url } from '../../api';
 import { useHistory } from 'react-router-dom';
 
 const Signup = () => {
     let history = useHistory();
-    const url = process.env.REACT_APP_API_URL || 'http://localhost:5000';
     const [user, setUser] = useState({
         name: '',
         username: '',
@@ -31,16 +30,12 @@ const Signup = () => {
 
     }
     const uploadImageProfile = async (e) => {
-        const fd = new FormData();
-        fd.append('file', e.target.files[0]);
-        const { data } = await uploadImage('/images/upload', fd);
+        const data = await upload(e);
         setUser(oldUser => ({ ...oldUser, profileImg: data.filename }));
     }
 
     const uploadImageGallery = async (e) => {
-        const fd = new FormData();
-        fd.append('file', e.target.files[0]);
-        const { data } = await uploadImage('/images/upload', fd);
+        const data = await upload(e);
         setUser(oldUser => ({ ...oldUser, profileImg: oldUser.profileImg, galleryImg: [...oldUser.galleryImg, data.filename] }));
     }
     const checkUsername = async () => {
