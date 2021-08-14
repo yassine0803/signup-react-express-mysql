@@ -1,0 +1,171 @@
+@import url(//db.onlinewebfonts.com/c/6cd6865a4dca5af03b76e21c34d80e70?family=Vijaya);
+.root {
+  font-family: "Vijaya-Bold";
+  width: 355px;
+  margin: auto;
+}
+.title {
+  font-weight: 40px;
+  color: #23d2e2;
+  margin-left: 10px;
+  box-shadow: 0px 0px;
+  text-align: left;
+}
+.title__right {
+  color: #615dfa;
+}
+
+.signup {
+  width: 100%;
+  text-align: left;
+  font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, Roboto,
+    "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.signup__title {
+  font-size: 30 px;
+  font-family: inherit;
+  margin-left: 20px;
+}
+
+.signup__paragraph {
+  font-size: 16px;
+  font-family: inherit;
+  margin-left: 20px;
+}
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.form__input {
+  width: 100%;
+  border: 1px solid #ccc;
+  height: 40px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+.username_error{
+  font-family: inherit;
+  font-size: 16px;
+  color: #ff7a7a;
+  margin-bottom: 20px;
+}
+.input_error{
+  width: 100%;
+  border: 1px solid #ff7a7a;
+  height: 40px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  padding-left: 10px;
+  color: #ff7a7a;
+}
+.form__button {
+  width: 104%;
+  height: 50px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #615dfa;
+  border: 3px solid #615dfa;
+  color: white;
+  padding: 10px;
+}
+.form__avatar {
+  position: relative;
+  max-width: 204px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.form__avatar .avatar_edit {
+  position: absolute;
+  z-index: 1;
+  top: 26px;
+  right: -26px;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+}
+.form__avatar .avatar_edit .avatar_input {
+  display: none;
+}
+
+.form__avatar .avatar_edit .avatar_label {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+
+.form__avatar .avatar_preview {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  border-radius: 100%;
+  background-color: #efefff;
+}
+
+.form__avatar .avatar_edit .avatar_label .avatar_upload {
+  width: 100%;
+  border-radius: 100%;
+}
+.form__avatar .avatar_image{
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+.form__avatar .avatar_image .image_preview{
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+}
+.form__gallery{
+  width: 104%;
+  margin: auto;
+  margin-bottom: 5px;
+}
+
+.gallery_image{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.gallery_image .gallery{
+  position: relative;
+}
+.gallery_image .avatar_edit{
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  top: 25%;
+  right: 25%;
+}
+.gallery_image .gallery{
+  height: 100px;
+  width: 110px;
+  border: 2px solid #eaeaf5;
+}
+
+.gallery_image .avatar_label{
+  width: 100%;
+  height: 100%;
+}
+
+.gallery_image .avatar_input{
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery_image .avatar_upload{
+  width: 50px !important;
+  height: 50px !important;
+}
