@@ -1,5 +1,7 @@
 import styles from './Signup.module.css';
 import camera from '../../images/camera.png';
+import check from '../../images/check.png';
+import cancel from '../../images/cancel.png';
 import { useState } from 'react';
 import { uploadImage, postData } from '../../api';
 
@@ -13,16 +15,60 @@ const Signup = () => {
         galleryImg: []
     });
     const [newUser, setNewUser] = useState(true);
+    const [checkPass, setCheckPass] = useState({
+        caracters: false,
+        number: false,
+        long: false
+    });
     const upload = async (e) => {
         const fd = new FormData();
         fd.append('file', e.target.files[0]);
-        const { data } = await uploadImage('/images/upload',fd);
-        setUser(oldUser => ({ ...oldUser, profileImg: data.filename }));
+        const { data } = await uploadImage('/images/upload', fd);
+        return data;
 
     }
-    const checkUsername = async()=>{
-        const result = await postData('/users/check-user', {username: user.username});
-        if(result.status !== 201) setNewUser(false)
+    const uploadImageProfile = async (e) => {
+        const data = await upload(e);
+        setUser(oldUser => ({ ...oldUser, profileImg: data.filename }));
+    }
+
+    const uploadImageGallery = async (e) => {
+        const data = await upload(e);
+        setUser(oldUser => ({ ...oldUser, galleryImg: [...oldUser.galleryImg, data.filename] }));
+    }
+    const checkUsername = async () => {
+        const result = await postData('/users/check-user', { username: user.username });
+        if (result.status !== 201)
+            setNewUser(false)
+        else
+            setNewUser(true)
+    }
+
+    const handleChangePass = (e) => {
+        let password = e.target.value;
+        if (password.length >= 8)
+            setCheckPass(values => ({ ...values, long: true }))
+        else
+            setCheckPass(values => ({ ...values, long: false }))
+        if (/[a-z][A-Z]/.test(password))
+            setCheckPass(values => ({ ...values, caracters: true }))
+        else
+            setCheckPass(values => ({ ...values, caracters: false }))
+        if (/(?=.*[0-9])/.test(password) || /(?=.*[!@#$%^&*])/.test(password))
+            setCheckPass(values => ({ ...values, number: true }))
+        else
+            setCheckPass(values => ({ ...values, number: false }))
+        if(checkPass.caracters && checkPass.number && checkPass.long) setUser(values => ({ ...values, password: e.target.value}))
+    }
+
+    const handleChangeInput =(e)=>{
+        setUser(values =>({...values, [e.target.name]: e.target.value}))
+    }
+    //regester user
+    const hundleSubmit = async(e)=>{
+        e.preventDefault();
+        const rzlt = await postData('/users/signup', user);
+        console.log(rzlt);
     }
     return (
         <div className={styles.root}>
@@ -32,11 +78,11 @@ const Signup = () => {
             <div className={styles.signup}>
                 <h2 className={styles.signup__title}>Sign Up</h2>
                 <p className={styles.signup__paragraph}> You need a JuneFox account to continue</p>
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={hundleSubmit}>
                     <div className={styles.form__avatar}>
                         {!user.profileImg &&
                             <div className={styles.avatar_edit}>
-                                <input onChange={upload} type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                <input onChange={uploadImageProfile} type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" />
                                 <label className={styles.avatar_label} htmlFor="imageUpload">
                                     <img className={styles.avatar_upload} src={camera} alt="" />
                                 </label>
@@ -49,59 +95,61 @@ const Signup = () => {
                                 </div>}
                         </div>
                     </div>
-                    <input className={styles.form__input} name="Name" type="text" placeholder="Name" />
-                    <input className={newUser ? styles.form__input : styles.input_error} name="Username"  type="text" placeholder="Username" onBlur={checkUsername} onChange={(e)=>setUser(olduser =>({...olduser, username: e.target.value}))} />
+                    <input required name="name" onChange={handleChangeInput} className={styles.form__input} type="text" placeholder="Name" />
+                    <input required className={newUser ? styles.form__input : styles.input_error} name="username" type="text" placeholder="Username" onBlur={checkUsername} onChange={handleChangeInput} />
                     {!newUser && <span className={styles.username_error}>Username already taken</span>}
-                    <input className={styles.form__input} name="email" type="email" placeholder="Email Adress" />
-                    <input className={styles.form__input} name="password" type="password" placeholder="Password" />
-                    <ul>
+                    <input required onChange={handleChangeInput} className={styles.form__input} name="email" type="email" placeholder="Email Adress" />
+                    <input required className={styles.form__input} name="password" type="password" placeholder="Password" onChange={handleChangePass} />
+                    <ul className={styles.password_check_list}>
                         Your password need to:
-                        <li>include both upper and lower case characters.</li>
-                        <li>include at least one number or symbol.</li>
-                        <li>Be at least 8 characters long.</li>
+                        <li className={!checkPass.caracters ? styles.regles_error : styles.regles_true}><img className={styles.check_cancel} alt="" src={checkPass.caracters ? check : cancel} />include both upper and lower case characters.</li>
+                        <li className={!checkPass.number ? styles.regles_error : styles.regles_true}><img className={styles.check_cancel} alt="" src={checkPass.number ? check : cancel} />include at least one number or symbol.</li>
+                        <li className={!checkPass.long ? styles.regles_error : styles.regles_true}><img className={styles.check_cancel} alt="" src={checkPass.long ? check : cancel} />Be at least 8 characters long.</li>
                     </ul>
                     <div className={styles.form__gallery}>
                         <div className={styles.gallery_image} >
                             <div className={styles.gallery}>
-                                <div className={styles.avatar_edit}>
-                                    <input type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                <div className={user.galleryImg.length === 0 ? styles.avatar_edit : styles.avatar_hide}>
+                                    <input type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" onChange={uploadImageGallery} />
                                     <label className={styles.avatar_label} htmlFor="imageUpload">
                                         <img className={styles.avatar_upload} src={camera} alt="" />
                                     </label>
                                 </div>
                                 <div className={styles.avatar_preview}>
-                                    {/* <div id="imagePreview" >
-                                <img src="http://i.pravatar.cc/500?img=7" width="100%" />
-                            </div> */}
+                                    {user.galleryImg.length > 0 &&
+                                        <div className={styles.avatar_image} >
+                                            <img src={`http://localhost:5000/uploads/${user.galleryImg[0]}`} alt="" className={styles.image_preview} />
+                                        </div>}
                                 </div>
                             </div>
                             <div className={styles.gallery}>
-                                <div className={styles.avatar_edit}>
-                                    <input type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                <div className={user.galleryImg.length < 2 ? styles.avatar_edit : styles.avatar_hide}>
+                                    <input type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" onChange={uploadImageGallery} />
                                     <label className={styles.avatar_label} htmlFor="imageUpload">
                                         <img className={styles.avatar_upload} src={camera} alt="" />
                                     </label>
                                 </div>
                                 <div className={styles.avatar_preview}>
-                                    {/* <div id="imagePreview" >
-                                <img src="http://i.pravatar.cc/500?img=7" width="100%" />
-                            </div> */}
+                                    {user.galleryImg.length > 1 &&
+                                        <div className={styles.avatar_image} >
+                                            <img src={`http://localhost:5000/uploads/${user.galleryImg[1]}`} alt="" className={styles.image_preview} />
+                                        </div>}
                                 </div>
                             </div>
                             <div className={styles.gallery}>
-                                <div className={styles.avatar_edit}>
-                                    <input type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                <div className={user.galleryImg.length < 3 ? styles.avatar_edit : styles.avatar_hide}>
+                                    <input type='file' className={styles.avatar_input} id="imageUpload" accept=".png, .jpg, .jpeg" onChange={uploadImageGallery} />
                                     <label className={styles.avatar_label} htmlFor="imageUpload">
                                         <img className={styles.avatar_upload} src={camera} alt="" />
                                     </label>
                                 </div>
                                 <div className={styles.avatar_preview}>
-                                    {/* <div id="imagePreview" >
-                                <img src="http://i.pravatar.cc/500?img=7" width="100%" />
-                            </div> */}
+                                    {user.galleryImg.length > 2 &&
+                                        <div className={styles.avatar_image} >
+                                            <img src={`http://localhost:5000/uploads/${user.galleryImg[2]}`} alt="" className={styles.image_preview} />
+                                        </div>}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <button className={styles.form__button} >Sign Up</button>

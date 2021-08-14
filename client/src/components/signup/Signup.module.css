@@ -61,6 +61,29 @@
   padding-left: 10px;
   color: #ff7a7a;
 }
+.password_check_list{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.regles_error{
+  margin-left: 10px;
+  color: #ff7a7a;
+}
+
+.regles_true{
+  margin-left: 10px;
+  color: #24d92a;
+}
+
+.check_cancel{
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  color: #ff7a7a;
+}
+
 .form__button {
   width: 104%;
   height: 50px;
@@ -127,8 +150,7 @@
 }
 .form__gallery{
   width: 104%;
-  margin: auto;
-  margin-bottom: 5px;
+  margin: 20px auto;
 }
 
 .gallery_image{
@@ -149,7 +171,7 @@
   right: 25%;
 }
 .gallery_image .gallery{
-  height: 100px;
+  height: 150px;
   width: 110px;
   border: 2px solid #eaeaf5;
 }
@@ -164,7 +186,13 @@
   width: 100%;
   height: 100%;
 }
-
+.avatar_hide{
+  display: none;
+}
+.gallery .image_preview{
+  width: 110px;
+  height: 150px
+}
 .gallery_image .avatar_upload{
   width: 50px !important;
   height: 50px !important;
