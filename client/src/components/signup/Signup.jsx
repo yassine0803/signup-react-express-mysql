@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { uploadImage, postData } from '../../api';
 
 const Signup = () => {
-    const url = process.env.REACT_APP_API_URL;
+    const url = process.env.REACT_APP_API_URL || 'http://localhost:5000' ;
     const [user, setUser] = useState({
         name: '',
         username: '',
@@ -92,7 +92,7 @@ const Signup = () => {
                         <div className={!user.profileImg ? styles.avatar_preview : ''}>
                             {user.profileImg &&
                                 <div className={styles.avatar_image} >
-                                    <img src={`http://localhost:5000/uploads/${user.profileImg}`} alt="" className={styles.image_preview} />
+                                    <img src={`${url}/uploads/${user.profileImg}`} alt="" className={styles.image_preview} />
                                 </div>}
                         </div>
                     </div>
@@ -119,7 +119,7 @@ const Signup = () => {
                                 <div className={styles.avatar_preview}>
                                     {user.galleryImg.length > 0 &&
                                         <div className={styles.avatar_image} >
-                                            <img src={`http://localhost:5000/uploads/${user.galleryImg[0]}`} alt="" className={styles.image_preview} />
+                                            <img src={`${url}/uploads/${user.galleryImg[0]}`} alt="" className={styles.image_preview} />
                                         </div>}
                                 </div>
                             </div>
@@ -133,7 +133,7 @@ const Signup = () => {
                                 <div className={styles.avatar_preview}>
                                     {user.galleryImg.length > 1 &&
                                         <div className={styles.avatar_image} >
-                                            <img src={`http://localhost:5000/uploads/${user.galleryImg[1]}`} alt="" className={styles.image_preview} />
+                                            <img src={`${url}/uploads/${user.galleryImg[1]}`} alt="" className={styles.image_preview} />
                                         </div>}
                                 </div>
                             </div>
