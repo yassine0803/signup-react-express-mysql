@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 
 const Signup = () => {
     let history = useHistory();
-    const url = process.env.REACT_APP_API_URL || 'http://localhost:5000' ;
+    const url = process.env.REACT_APP_API_URL || 'http://localhost:5000';
     const [user, setUser] = useState({
         name: '',
         username: '',
@@ -65,23 +65,23 @@ const Signup = () => {
             setCheckPass(values => ({ ...values, number: true }))
         else
             setCheckPass(values => ({ ...values, number: false }))
-        if(checkPass.caracters && checkPass.number && checkPass.long) setUser(values => ({ ...values, password: e.target.value}))
+        if (checkPass.caracters && checkPass.number && checkPass.long) setUser(values => ({ ...values, password: e.target.value }))
     }
 
-    const handleChangeInput =(e)=>{
-        setUser(values =>({...values, [e.target.name]: e.target.value}))
+    const handleChangeInput = (e) => {
+        setUser(values => ({ ...values, [e.target.name]: e.target.value }))
     }
     //regester user
-    const hundleSubmit = async(e)=>{
+    const hundleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const {data} = await postData('/users/signup', user);
-        localStorage.setItem('profile', JSON.stringify({ ...data }));
-        history.push('/profile');
+            const { data } = await postData('/users/signup', user);
+            localStorage.setItem('profile', JSON.stringify({ ...data }));
+            history.push('/profile');
         } catch (error) {
             console.log(error);
         }
-        
+
     }
     return (
         <div className={styles.root}>
