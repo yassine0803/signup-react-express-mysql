@@ -68,8 +68,8 @@ const Signup = () => {
     //regester user
     const hundleSubmit = async(e)=>{
         e.preventDefault();
-        const rzlt = await postData('/users/signup', user);
-        console.log(rzlt);
+        const {data} = await postData('/users/signup', user);
+        localStorage.setItem('profile', JSON.stringify({ ...data }));
     }
     return (
         <div className={styles.root}>
