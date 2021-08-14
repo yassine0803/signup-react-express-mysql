@@ -1,0 +1,65 @@
+.root {
+  font-family: "Vijaya-Bold";
+  width: 355px;
+  margin: auto;
+}
+
+.profile__avatar {
+  position: relative;
+  max-width: 204px;
+  margin: auto;
+  margin-bottom: 20px;
+  border-radius: 100%;
+}
+.avatar_edit {
+  position: absolute;
+  z-index: 1;
+  top: 80px;
+  right: 52px;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+}
+.edit_label{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+}
+.avatar_upload{
+    width: 100%;
+    height: 100%;
+}
+.edit_input{
+    display: none;
+}
+
+.avatar_preview{
+  width: 100%;
+  height: 100%;
+}
+.avatar_preview_new{
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-color: rgba(0, 0, 0, 0.774);
+}
+.avatar_iamge {
+  width: 204px;
+  height: 204px;
+  border-radius: 100%;
+}
+
+.avatar_iamge_edit{
+  width: 204px;
+  height: 204px;
+  border-radius: 100%;
+  opacity: 0.5;
+}
+
+
