@@ -22,24 +22,14 @@ const Signup = () => {
         number: false,
         long: false
     });
-    const upload = async (e) => {
-        try {
-            const fd = new FormData();
-            fd.append('file', e.target.files[0]);
-            const { data } = await uploadImage('/images/upload', fd);
-            return data;
-        } catch (error) {
-            console.log(error);
-        }
 
-    }
     const uploadImageProfile = async (e) => {
-        const data = await upload(e);
+        const {data} = await uploadImage('/images/upload', e);
         setUser(oldUser => ({ ...oldUser, profileImg: data.filename }));
     }
 
     const uploadImageGallery = async (e) => {
-        const data = await upload(e);
+        const {data} = await uploadImage('/images/upload', e);
         setUser(oldUser => ({ ...oldUser, galleryImg: [...oldUser.galleryImg, data.filename] }));
     }
     const checkUsername = async () => {
@@ -56,7 +46,7 @@ const Signup = () => {
             setCheckPass(values => ({ ...values, long: true }))
         else
             setCheckPass(values => ({ ...values, long: false }))
-        if (/[a-z][A-Z]/.test(password))
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password))
             setCheckPass(values => ({ ...values, caracters: true }))
         else
             setCheckPass(values => ({ ...values, caracters: false }))
