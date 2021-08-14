@@ -7,6 +7,7 @@ const router = express.Router();
 
 
 router.post('/upload', uploadMiddleware.single('file'), async (req, res) => {
+    console.log(req);
     const {filename} = req.file;
     return res.json({
         filename

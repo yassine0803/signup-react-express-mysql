@@ -26,11 +26,13 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/check-user',async(req, res) => {
-    const username = req.body;
+    console.log(req.body);
+    const {username} = req.body;
     try {
         const oldUser = await UserModal.findOne({ username });
 
-        if (oldUser) return res.status(400).json({ message: "Username already exists" });
+        if (oldUser) return res.json({ message: "Username already exists" });
+        res.status(201).json({ message: "new user"});
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
     }
