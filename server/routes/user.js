@@ -50,5 +50,17 @@ router.get('/:id', async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 })
+
+router.post('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { oladImages } = req.body;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+
+    const {data} = await UserModal.findByIdAndUpdate(id, req.body, { new: true });
+
+    res.json(data);
+})
 export default router;
 

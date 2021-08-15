@@ -127,6 +127,7 @@
 .image_container .gallery_edit .image_upload {
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
 
 .profile_name {
@@ -157,4 +158,27 @@
   width: 50%;
   padding: 10px 20px;
   border-radius: 4px;
+}
+
+.input_preview,.input_preview:focus {
+  outline: none;
+  border: 0;
+  padding: 10px 5px 0px 0px;
+  text-align: center;
+  max-width: 60px;
+}
+.input_edit {
+  border: 1px solid #ccc;
+  padding: 10px 10px;
+  max-width: 120px;
+  margin-right: 4px;
+  border-radius: 4px;
+}
+
+.profile_username .input_edit{
+  max-width: 180px;
+}
+
+.profile_username .input_preview{
+  max-width: 180px;
 }
