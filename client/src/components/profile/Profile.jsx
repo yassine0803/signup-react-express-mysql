@@ -12,14 +12,10 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState(false);
     const [username, setUsername] = useState(false);
-    const [oldName, setOldName] = useState('');
-    const [oldUsername, setOldUsername] = useState('');
     const [oldImages, setOldImages] = useState([]);
     const fetchUser = async () => {
         const { data } = await getData('/users/' + id);
         setUser(data);
-        setOldName(data.name);
-        setOldUsername(data.username);
         setLoading(false);
     }
 
