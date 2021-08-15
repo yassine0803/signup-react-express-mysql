@@ -14,3 +14,4 @@ export const uploadImage = async (endpoint, e) => {
 };
 export const postData = (endpoint, formData) => API.post(endpoint, formData);
 export const getData = (endpoint) => API.get(endpoint);
+export const updateData = (endpoint, data) => API.patch(endpoint, data);

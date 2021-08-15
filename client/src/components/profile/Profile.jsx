@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from "react-router-dom";
 import camera from '../../images/camera_white.png';
 import draw from '../../images/draw.png';
-import { getData, uploadImage, url } from '../../api';
+import { getData, uploadImage, postData, updateData, url } from '../../api';
 import styles from './Profile.module.css';
 
 const Profile = () => {
@@ -13,6 +13,17 @@ const Profile = () => {
     const [name, setName] = useState(false);
     const [username, setUsername] = useState(false);
     const [oldImages, setOldImages] = useState([]);
+    const [newUser, setNewUser] = useState(true);
+
+    const checkUsername = async () => {
+        console.log('Checking');
+        const result = await postData('/users/check-user', { username: user.username });
+        if (result.status !== 201)
+            setNewUser(false)
+        else
+            setNewUser(true)
+    }
+
     const fetchUser = async () => {
         const { data } = await getData('/users/' + id);
         setUser(data);
@@ -35,6 +46,12 @@ const Profile = () => {
         user.galleryImg.splice(user.galleryImg.indexOf(currentImage), 1, data.filename);
         setUser((values) => ({...values, galleryImg : user.galleryImg}))
 
+    }
+
+    const hundleSubmit = async()=> {
+        const {data} = await updateData('/users/'+user._id, user);
+        setUser(data);
+        setEdit(false);
     }
     useEffect(() => {
         fetchUser();
@@ -67,10 +84,11 @@ const Profile = () => {
                 </div>
                 <div className={styles.profile_username}>
                     {!edit && user?.username}
-                    {edit && <input name="username" placeholder={user.username} className={username ? styles.input_edit : styles.input_preview} onChange={handleChangeInput} onBlur={() => setUsername(false)} />}
-                    {edit && <img className={styles.image_upload} src={draw} alt="" onClick={() => setUsername(true)} />}
+                    {edit && <input name="username" placeholder={user.username} className={username ? styles.input_edit : styles.input_preview} onChange={handleChangeInput} onBlur={() => {checkUsername();setUsername(false)}} />}
+                    {edit && <img className={styles.image_upload} src={draw} alt="" onClick={() => setUsername(true)}  />}
+                    {!newUser && <div className={styles.username_error}>Username already taken</div>}
                 </div>
-                <button className={styles.edit_button} onClick={() => setEdit(true)}>Edit Profile</button>
+                <button className={styles.edit_button} onClick={() => edit ? hundleSubmit() : setEdit(true)}>Edit Profile</button>
                 {user.galleryImg && user.galleryImg.length > 0 && <div className={styles.profile__gallery}>
 
                     {user.galleryImg.map((img) => (
