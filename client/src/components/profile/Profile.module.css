@@ -1,7 +1,7 @@
 @import url(//db.onlinewebfonts.com/c/0b51833ff62e4af8acb5fd3e2bf59e97?family=SF+Pro+Display);
 .root {
   font-family: "Vijaya-Bold";
-  width: 355px;
+  width: 100%;
   margin: auto;
   font-family: "SF Pro Display";
 }
@@ -40,6 +40,7 @@
   margin-bottom: 20px;
   border-radius: 100%;
 }
+
 .avatar_edit {
   position: absolute;
   z-index: 1;
@@ -166,6 +167,7 @@
   padding: 10px 5px 0px 0px;
   text-align: center;
   max-width: 60px;
+  margin-right: 4px;
 }
 .input_edit {
   border: 1px solid #ccc;

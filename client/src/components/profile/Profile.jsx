@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from "react-router-dom";
 import camera from '../../images/camera_white.png';
 import draw from '../../images/draw.png';
+import check from '../../images/check.png';
 import { getData, uploadImage, postData, updateData, url } from '../../api';
 import styles from './Profile.module.css';
 
@@ -58,10 +59,10 @@ const Profile = () => {
     }, [id]);
     return (
         <div className={styles.root}>
+            <h1 className={styles.profile__title}>
+                Profile
+            </h1>
             {user.name && <div className={styles.profile}>
-                <h1 className={styles.profile__title}>
-                    Profile
-                </h1>
                 <div className={styles.profile__avatar}>
                     {edit && <div className={styles.avatar_edit} >
                         <input type='file' className={styles.edit_input} id="profileImg" accept=".png, .jpg, .jpeg" onChange={(e) => hundleUploadImage(e, user.profileImg)} />
@@ -78,14 +79,12 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className={styles.profile_name}>
-                    {!edit && user?.name}
-                    {edit && <input name="name" placeholder={user.name} className={name ? styles.input_edit : styles.input_preview} onBlur={() => setName(false)} onChange={handleChangeInput} />}
-                    {edit && <img className={styles.image_upload} src={draw} alt="" onClick={() => setName(true)} />}
+                    {!name ? <span className={styles.input_preview}>{user?.name}</span> : <input name="name" placeholder={user.name} className={styles.input_edit} onBlur={() => setName(false)} onChange={handleChangeInput} />}
+                    {edit && <img className={styles.image_upload} src={name ? check : draw} alt="" onClick={() => { setName(!name); setUsername(false) }} />}
                 </div>
                 <div className={styles.profile_username}>
-                    {!edit && user?.username}
-                    {edit && <input name="username" placeholder={user.username} className={username ? styles.input_edit : styles.input_preview} onChange={handleChangeInput} onBlur={() => { checkUsername(); setUsername(false) }} />}
-                    {edit && <img className={styles.image_upload} src={draw} alt="" onClick={() => setUsername(true)} />}
+                    {!username ? <span className={styles.input_preview}>{user?.username}</span> : <input name="username" placeholder={user.username} className={styles.input_preview} onChange={handleChangeInput} onBlur={() => { checkUsername(); setUsername(false) }} />}
+                    {edit && <img className={styles.image_upload} src={username ? check : draw} alt="" onClick={() => { setUsername(!username); setName(false) }} />}
                     {!newUser && <div className={styles.username_error}>Username already taken</div>}
                 </div>
                 <button className={styles.edit_button} onClick={() => edit ? hundleSubmit() : setEdit(true)}>Edit Profile</button>
