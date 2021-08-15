@@ -1,7 +1,7 @@
 @import url(//db.onlinewebfonts.com/c/6cd6865a4dca5af03b76e21c34d80e70?family=Vijaya);
 .root {
   font-family: "Vijaya-Bold";
-  width: 355px;
+  width: 300px;
   margin: auto;
 }
 .title {
@@ -158,6 +158,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  gap: 3px;
 }
 
 .gallery_image .gallery{
