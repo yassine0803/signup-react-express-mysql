@@ -4,10 +4,17 @@ import  cors from 'cors';
 import  bodyParser from 'body-parser';
 import userRoutes from './routes/user.js';
 import imageRoutes from './routes/image.js';
-import {PORT, mongodb} from './config/index.js';
+import {PORT, sqldb} from './config/index.js';
 import path from 'path';
 const __dirname = path.resolve();
 const app = express();
+
+sqldb.connect((err)=>{
+    if(err){
+        throw err;
+    }
+    console.log('MySQL connected...')
+})
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -23,8 +30,3 @@ app.use(express.static("public"))
 
 
 const server =  app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
-mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() =>server)
-    .catch((err) => console.log(err));
-
-mongoose.set('useFindAndModify', false);
