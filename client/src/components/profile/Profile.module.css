@@ -92,35 +92,21 @@
 }
 
 .profile__gallery {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 200%;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+  width: 400px;
   height: 400px;
 }
 
-@media (max-width: 621px) {
-  .profile__gallery {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    width: 200%;
-    margin-top: 204px;
-  }
-  .profile__gallery .image_container{
-    margin-bottom: 14px;
-  }
-}
 .profile__gallery .image_container {
-  width: 32%;
   height: 400px;
   position: relative;
 }
 
 .profile__gallery .gallery_image {
-  width: 100%;
+  width: 200px;
   height: 100%;
 }
 
