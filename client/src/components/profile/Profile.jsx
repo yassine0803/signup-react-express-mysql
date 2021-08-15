@@ -34,22 +34,22 @@ const Profile = () => {
         if (e.target.value.length)
             setUser(values => ({ ...values, [e.target.name]: e.target.value }));
     }
-    const hundleUploadImage = async(e, currentImage) => {
-        setOldImages(values => ( [...values, currentImage ]));
-        const {data} = await uploadImage('/images/upload', e);
-        setUser((values) => ({...values, profileImg : data.filename}))
+    const hundleUploadImage = async (e, currentImage) => {
+        setOldImages(values => ([...values, currentImage]));
+        const { data } = await uploadImage('/images/upload', e);
+        setUser((values) => ({ ...values, profileImg: data.filename }))
 
     }
-    const hundleUploadGallery = async(e, currentImage) => {
-        setOldImages(values => ( [...values, currentImage ]));
-        const {data} = await uploadImage('/images/upload', e);
+    const hundleUploadGallery = async (e, currentImage) => {
+        setOldImages(values => ([...values, currentImage]));
+        const { data } = await uploadImage('/images/upload', e);
         user.galleryImg.splice(user.galleryImg.indexOf(currentImage), 1, data.filename);
-        setUser((values) => ({...values, galleryImg : user.galleryImg}))
+        setUser((values) => ({ ...values, galleryImg: user.galleryImg }))
 
     }
 
-    const hundleSubmit = async()=> {
-        const {data} = await updateData('/users/'+user._id, user);
+    const hundleSubmit = async () => {
+        const { data } = await updateData('/users/' + user._id, user);
         setUser(data);
         setEdit(false);
     }
@@ -84,26 +84,29 @@ const Profile = () => {
                 </div>
                 <div className={styles.profile_username}>
                     {!edit && user?.username}
-                    {edit && <input name="username" placeholder={user.username} className={username ? styles.input_edit : styles.input_preview} onChange={handleChangeInput} onBlur={() => {checkUsername();setUsername(false)}} />}
-                    {edit && <img className={styles.image_upload} src={draw} alt="" onClick={() => setUsername(true)}  />}
+                    {edit && <input name="username" placeholder={user.username} className={username ? styles.input_edit : styles.input_preview} onChange={handleChangeInput} onBlur={() => { checkUsername(); setUsername(false) }} />}
+                    {edit && <img className={styles.image_upload} src={draw} alt="" onClick={() => setUsername(true)} />}
                     {!newUser && <div className={styles.username_error}>Username already taken</div>}
                 </div>
                 <button className={styles.edit_button} onClick={() => edit ? hundleSubmit() : setEdit(true)}>Edit Profile</button>
-                {user.galleryImg && user.galleryImg.length > 0 && <div className={styles.profile__gallery}>
+                {user.galleryImg && user.galleryImg.length > 0
+                    &&
+                    <div className={styles.profile__gallery}>
 
-                    {user.galleryImg.map((img) => (
-                        <div key={img} className={styles.image_container}>
-                            {edit && <div className={styles.gallery_edit}>
-                                <input type='file' className={styles.gallery_input} id={img} accept=".png, .jpg, .jpeg" onChange={(e)=> hundleUploadGallery(e, img)} />
-                                <label className={styles.gallery_label} htmlFor={img}>
-                                    <img className={styles.image_upload} src={draw} alt="" />
-                                </label>
-                            </div>}
-                            <img src={`${url}/uploads/${img}`} alt="" className={styles.gallery_image} />
-                        </div>
-                    ))}
+                        {user.galleryImg.map((img) => (
+                            <div key={img} className={styles.image_container}>
+                                {edit && <div className={styles.gallery_edit}>
+                                    <input type='file' className={styles.gallery_input} id={img} accept=".png, .jpg, .jpeg" onChange={(e) => hundleUploadGallery(e, img)} />
+                                    <label className={styles.gallery_label} htmlFor={img}>
+                                        <img className={styles.image_upload} src={draw} alt="" />
+                                    </label>
+                                </div>}
+                                <img src={`${url}/uploads/${img}`} alt="" className={styles.gallery_image} />
+                            </div>
+                        ))}
 
-                </div>}
+                    </div>
+                }
             </div>}
             {loading && <div className={styles.profil__loader}></div>}
         </div>
