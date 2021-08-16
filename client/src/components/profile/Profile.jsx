@@ -95,7 +95,7 @@ const Profile = () => {
                     {edit && <img className={styles.image_upload} src={name ? check : draw} alt="" onClick={() => { setName(!name); setUsername(false) }} />}
                 </div>
                 <div className={styles.profile_username}>
-                    {!username ? <span className={styles.input_preview}>{user?.username}</span> : <input name="username" placeholder={user.username} className={newUser ? styles.input_edit : styles.input_edit_error} onChange={handleChangeInput} onBlur={() => { checkUsername(); setUsername(false) }} />}
+                    {!username ? <span className={styles.input_preview}>@{user?.username}</span> : <input name="username" placeholder={user.username} className={newUser ? styles.input_edit : styles.input_edit_error} onChange={handleChangeInput} onBlur={() => { checkUsername(); setUsername(false) }} />}
                     {edit && <img className={styles.image_upload} src={username ? check : draw} alt="" onClick={() => { setUsername(!username); setName(false) }} />}
                     {!newUser && <div className={styles.username_error}>Username already taken</div>}
                 </div>
