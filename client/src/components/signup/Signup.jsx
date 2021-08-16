@@ -22,7 +22,6 @@ const Signup = () => {
         number: false,
         long: false
     });
-    const [passRules, setPassRules] = useState(false);
 
     const uploadImageProfile = async (e) => {
         const { data } = await uploadImage('/images/upload', e);
@@ -64,13 +63,13 @@ const Signup = () => {
     //regester user
     const hundleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const { status, data } = await postData('/users/signup', user);
+        if(newUser && checkPass.caracters && checkPass.number && checkPass.long){try {
+            const {data } = await postData('/users/signup', user);
             localStorage.setItem('profile', JSON.stringify({ ...data }));
             history.push('/profile/' + data.userId);
         } catch (error) {
             console.log(error);
-        }
+        }}
 
     }
     return (
@@ -102,13 +101,13 @@ const Signup = () => {
                     <input required className={newUser ? styles.form__input : styles.input_error} name="username" type="text" placeholder="Username" onBlur={checkUsername} onChange={handleChangeInput} />
                     {!newUser && <span className={styles.username_error}>Username already taken</span>}
                     <input required onChange={handleChangeInput} className={styles.form__input} name="email" type="email" placeholder="Email Adress" />
-                    <input required className={styles.form__input} name="password" type="password" placeholder="Password" onChange={handleChangePass} onClick={() => setPassRules(true)} />
-                    {passRules && <ul className={styles.password_check_list}>
+                    <input required className={styles.form__input} name="password" type="password" placeholder="Password" onChange={handleChangePass} />
+                    <ul className={styles.password_check_list}>
                         Your password need to:
                         <li className={!checkPass.caracters ? styles.regles_error : styles.regles_true}><img className={styles.check_cancel} alt="" src={checkPass.caracters ? check : cancel} />include both upper and lower case characters.</li>
                         <li className={!checkPass.number ? styles.regles_error : styles.regles_true}><img className={styles.check_cancel} alt="" src={checkPass.number ? check : cancel} />include at least one number or symbol.</li>
                         <li className={!checkPass.long ? styles.regles_error : styles.regles_true}><img className={styles.check_cancel} alt="" src={checkPass.long ? check : cancel} />Be at least 8 characters long.</li>
-                    </ul>}
+                    </ul>
                     <div className={styles.form__gallery}>
                         <div className={styles.gallery_image} >
                             <div className={styles.gallery}>
