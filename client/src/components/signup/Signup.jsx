@@ -66,14 +66,8 @@ const Signup = () => {
         e.preventDefault();
         try {
             const { status, data } = await postData('/users/signup', user);
-            console.log(data);
-            if (status === 201) {
-                localStorage.setItem('profile', JSON.stringify({ ...data }));
-                history.push('/profile/' + data.userId);
-            }
-            else {
-                console.log('error');
-            }
+            localStorage.setItem('profile', JSON.stringify({ ...data }));
+            history.push('/profile/' + data.userId);
         } catch (error) {
             console.log(error);
         }

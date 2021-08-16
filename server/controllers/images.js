@@ -2,7 +2,6 @@ import {sqldb} from '../config/index.js';
 
 
 export const uploadImage = async (req, res) => {
-    console.log(req);
     const {filename} = req.file;
     return res.json({
         filename
@@ -30,7 +29,6 @@ export const editProfileGallery = async(req, res) => {
     let sql = `UPDATE galleryImg SET image = '${filename}' where image = '${name}'`;
     try {
         sqldb.query(sql,(err, rows)=>{
-            console.log(rows);
             res.status(201).json({filename});
         })
     } catch (error) {
