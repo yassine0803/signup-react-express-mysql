@@ -2,6 +2,14 @@ import axios from 'axios';
 export const url = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 const API = axios.create({ baseURL: url });
 
+API.interceptors.request.use((req) => {
+    if (localStorage.getItem('profile')) {
+        req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+    }
+
+    return req;
+});
+
 export const uploadImage = async (endpoint, e) => {
     try {
         const fd = new FormData();
@@ -10,7 +18,7 @@ export const uploadImage = async (endpoint, e) => {
     } catch (error) {
         console.log(error);
     }
-    
+
 };
 export const postData = (endpoint, formData) => API.post(endpoint, formData);
 export const getData = (endpoint) => API.get(endpoint);
