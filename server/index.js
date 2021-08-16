@@ -1,12 +1,10 @@
 import  express from 'express';
-import  mongoose from 'mongoose';
 import  cors from 'cors';
 import  bodyParser from 'body-parser';
 import userRoutes from './routes/user.js';
 import imageRoutes from './routes/image.js';
 import {PORT, sqldb} from './config/index.js';
-import path from 'path';
-const __dirname = path.resolve();
+
 const app = express();
 
 sqldb.connect((err)=>{
