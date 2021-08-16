@@ -177,6 +177,14 @@
   border-radius: 4px;
 }
 
+.input_edit_error {
+  border: 1px solid #ff7a7a;
+  padding: 10px 10px;
+  max-width: 120px;
+  margin-right: 4px;
+  border-radius: 4px;
+}
+
 .profile_username .input_edit{
   max-width: 160px;
 }

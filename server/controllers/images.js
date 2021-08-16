@@ -11,7 +11,14 @@ export const uploadImage = async (req, res) => {
 export const editProfileImage = async (req, res) => {
     const { name } = req.params;
     const {filename} = req.file;
-    const sql = ``;
+    let sql = `UPDATE users SET profileImg = '${filename}' where profileImg = '${name}'`;
+    try {
+        sqldb.query(sql,(err, rows)=>{
+            res.status(201).json({filename});
+        })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const getUserGallery = async (req, res) => {
@@ -26,7 +33,7 @@ export const getUserGallery = async (req, res) => {
 export const editProfileGallery = async(req, res) => {
     const { name } = req.params;
     const {filename} = req.file;
-    let sql = `UPDATE galleryImg SET image = '${filename}' where image = '${name}'`;
+    const sql = `UPDATE galleryImg SET image = '${filename}' where image = '${name}'`;
     try {
         sqldb.query(sql,(err, rows)=>{
             res.status(201).json({filename});

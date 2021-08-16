@@ -41,8 +41,8 @@ const Profile = () => {
             setUser(values => ({ ...values, [e.target.name]: e.target.value }));
     }
     const hundleUploadImage = async (e, currentImage) => {
-        const { data } = await uploadImage('/images/upload', e);
-        setUser((values) => ({ ...values, profileImg: data.filename }))
+        const { data } = await uploadImage('/images/edit-profile-image/' + currentImage, e);
+        setUser(oldvalues => ({ ...oldvalues, profileImg: data.filename }))
 
     }
     const hundleUploadGallery = async (e, currentImage) => {
@@ -54,9 +54,16 @@ const Profile = () => {
     }
 
     const hundleSubmit = async () => {
-        const { data } = await updateData('/users/' + user._id, user);
-        setUser(data);
-        setEdit(false);
+        if (newUser) {
+            const { status } = await updateData('/users/' + user.id, user);
+            if (status === 201) {
+                fetchUser();
+                setEdit(false);
+            }
+            else {
+                console.log('error');
+            }
+        }
     }
     useEffect(() => {
         fetchUser();
@@ -88,7 +95,7 @@ const Profile = () => {
                     {edit && <img className={styles.image_upload} src={name ? check : draw} alt="" onClick={() => { setName(!name); setUsername(false) }} />}
                 </div>
                 <div className={styles.profile_username}>
-                    {!username ? <span className={styles.input_preview}>{user?.username}</span> : <input name="username" placeholder={user.username} className={styles.input_preview} onChange={handleChangeInput} onBlur={() => { checkUsername(); setUsername(false) }} />}
+                    {!username ? <span className={styles.input_preview}>{user?.username}</span> : <input name="username" placeholder={user.username} className={newUser ? styles.input_edit : styles.input_edit_error} onChange={handleChangeInput} onBlur={() => { checkUsername(); setUsername(false) }} />}
                     {edit && <img className={styles.image_upload} src={username ? check : draw} alt="" onClick={() => { setUsername(!username); setName(false) }} />}
                     {!newUser && <div className={styles.username_error}>Username already taken</div>}
                 </div>
