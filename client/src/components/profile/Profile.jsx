@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import camera from '../../images/camera_white.png';
 import draw from '../../images/draw.png';
 import check from '../../images/check.png';
@@ -13,8 +13,8 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState(false);
     const [username, setUsername] = useState(false);
-    const [oldImages, setOldImages] = useState([]);
     const [newUser, setNewUser] = useState(true);
+    const [profileGallery, setProfileGallery] = useState([]);
 
     const checkUsername = async () => {
         console.log('Checking');
@@ -31,22 +31,26 @@ const Profile = () => {
         setLoading(false);
     }
 
+    const fetUsergallery = async () => {
+        const { data } = await getData('/images/gallery/user/' + id);
+        setProfileGallery(data);
+    }
+
     const handleChangeInput = (e) => {
         if (e.target.value.length)
             setUser(values => ({ ...values, [e.target.name]: e.target.value }));
     }
     const hundleUploadImage = async (e, currentImage) => {
-        setOldImages(values => ([...values, currentImage]));
         const { data } = await uploadImage('/images/upload', e);
         setUser((values) => ({ ...values, profileImg: data.filename }))
 
     }
     const hundleUploadGallery = async (e, currentImage) => {
-        setOldImages(values => ([...values, currentImage]));
-        const { data } = await uploadImage('/images/upload', e);
-        user.galleryImg.splice(user.galleryImg.indexOf(currentImage), 1, data.filename);
-        setUser((values) => ({ ...values, galleryImg: user.galleryImg }))
-
+        const { data } = await uploadImage('/images/edit-gallery-image/' + currentImage, e);
+        let objIndex = profileGallery.findIndex((obj => obj.image === currentImage));
+        profileGallery[objIndex] = { image: data.filename };
+        setProfileGallery([]);
+        setProfileGallery(profileGallery);
     }
 
     const hundleSubmit = async () => {
@@ -56,6 +60,7 @@ const Profile = () => {
     }
     useEffect(() => {
         fetchUser();
+        fetUsergallery();
     }, [id]);
     return (
         <div className={styles.root}>
@@ -88,25 +93,25 @@ const Profile = () => {
                     {!newUser && <div className={styles.username_error}>Username already taken</div>}
                 </div>
                 <button className={styles.edit_button} onClick={() => edit ? hundleSubmit() : setEdit(true)}>Edit Profile</button>
-                {user.galleryImg && user.galleryImg.length > 0
-                    &&
-                    <div className={styles.profile__gallery}>
-
-                        {user.galleryImg.map((img) => (
-                            <div key={img} className={styles.image_container}>
-                                {edit && <div className={styles.gallery_edit}>
-                                    <input type='file' className={styles.gallery_input} id={img} accept=".png, .jpg, .jpeg" onChange={(e) => hundleUploadGallery(e, img)} />
-                                    <label className={styles.gallery_label} htmlFor={img}>
-                                        <img className={styles.image_upload} src={draw} alt="" />
-                                    </label>
-                                </div>}
-                                <img src={`${url}/uploads/${img}`} alt="" className={styles.gallery_image} />
-                            </div>
-                        ))}
-
-                    </div>
-                }
             </div>}
+            {profileGallery && profileGallery.length > 0
+                &&
+                <div className={styles.profile__gallery}>
+
+                    {profileGallery.map((img) => (
+                        <div key={img.image} className={styles.image_container}>
+                            {edit && <div className={styles.gallery_edit}>
+                                <input type='file' className={styles.gallery_input} id={img.image} accept=".png, .jpg, .jpeg" onChange={(e) => hundleUploadGallery(e, img.image)} />
+                                <label className={styles.gallery_label} htmlFor={img.image}>
+                                    <img className={styles.image_upload} src={draw} alt="" />
+                                </label>
+                            </div>}
+                            <img src={`${url}/uploads/${img.image}`} alt="" className={styles.gallery_image} />
+                        </div>
+                    ))}
+
+                </div>
+            }
             {loading && <div className={styles.profil__loader}></div>}
         </div>
     );

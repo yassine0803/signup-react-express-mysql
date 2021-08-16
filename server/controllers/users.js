@@ -41,10 +41,11 @@ export const checkUser = async (req, res) => {
 
 export const getUser = async (req, res) => {
     const { id } = req.params;
-
+    const sql = `SELECT name, username, profileImg FROM users where id = ${id}`;
     try {
-        const data = await UserModal.findById(id).select({"password": 0});
-        res.status(200).json(data);
+        sqldb.query(sql, (err, rows) => {
+            res.status(201).json(...rows);
+        })
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
