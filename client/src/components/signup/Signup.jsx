@@ -25,20 +25,20 @@ const Signup = () => {
     const [passRules, setPassRules] = useState(false);
 
     const uploadImageProfile = async (e) => {
-        const {data} = await uploadImage('/images/upload', e);
+        const { data } = await uploadImage('/images/upload', e);
         setUser(oldUser => ({ ...oldUser, profileImg: data.filename }));
     }
 
     const uploadImageGallery = async (e) => {
-        const {data} = await uploadImage('/images/upload', e);
+        const { data } = await uploadImage('/images/upload', e);
         setUser(oldUser => ({ ...oldUser, galleryImg: [...oldUser.galleryImg, data.filename] }));
     }
     const checkUsername = async () => {
-        const result = await postData('/users/check-user', { username: user.username });
-        if (result.status !== 201)
-            setNewUser(false)
-        else
-            setNewUser(true)
+            const result = await postData('/users/check-user', { username: user.username });
+            if (result.status !== 201)
+                setNewUser(false)
+            else
+                setNewUser(true)
     }
 
     const handleChangePass = (e) => {
@@ -65,9 +65,15 @@ const Signup = () => {
     const hundleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await postData('/users/signup', user);
-            localStorage.setItem('profile', JSON.stringify({ ...data }));
-            history.push('/profile/' + data.result._id);
+            const { status, data } = await postData('/users/signup', user);
+            console.log(data);
+            if (status === 201) {
+                localStorage.setItem('profile', JSON.stringify({ ...data }));
+                history.push('/profile/' + data.userId);
+            }
+            else {
+                console.log('error');
+            }
         } catch (error) {
             console.log(error);
         }
@@ -102,7 +108,7 @@ const Signup = () => {
                     <input required className={newUser ? styles.form__input : styles.input_error} name="username" type="text" placeholder="Username" onBlur={checkUsername} onChange={handleChangeInput} />
                     {!newUser && <span className={styles.username_error}>Username already taken</span>}
                     <input required onChange={handleChangeInput} className={styles.form__input} name="email" type="email" placeholder="Email Adress" />
-                    <input required className={styles.form__input} name="password" type="password" placeholder="Password" onChange={handleChangePass} onClick={()=> setPassRules(true)} />
+                    <input required className={styles.form__input} name="password" type="password" placeholder="Password" onChange={handleChangePass} onClick={() => setPassRules(true)} />
                     {passRules && <ul className={styles.password_check_list}>
                         Your password need to:
                         <li className={!checkPass.caracters ? styles.regles_error : styles.regles_true}><img className={styles.check_cancel} alt="" src={checkPass.caracters ? check : cancel} />include both upper and lower case characters.</li>

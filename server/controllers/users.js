@@ -1,37 +1,39 @@
 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import UserModal from "../models/user.js";
+import {sqldb} from '../config/index.js';
 
 const secret = 'test';
 
 export const signup = async (req, res) => {
-    const { password } = req.body;
+    const {name, username, email, password, profileImg, galleryImg } = req.body;
 
     try {
 
         const hashedPassword = await bcrypt.hash(password, 12);
-
-        const result = await UserModal.create({ ...req.body, password: hashedPassword });
-
-        const token = jwt.sign({ email: result.email, id: result._id }, secret, { expiresIn: "1h" });
-
-        res.status(201).json({ result, token });
+        const sql = `INSERT INTO users (name, username, profileImg, email, password) VALUES ('${name}','${username}','${profileImg}','${email}','${hashedPassword}')`;
+        sqldb.query(sql,(err,user)=>{
+            if(err) throw err;
+            galleryImg.forEach((imageName, index) => galleryImg[index] = [user.insertId, imageName]);
+            const sql = 'INSERT INTO galleryImg (user_id, image) VALUES ?';
+            sqldb.query(sql, [galleryImg]);
+            const token = jwt.sign({ email: email, id: user.insertId}, secret, { expiresIn: "1h" });
+            res.status(201).json({ userId:user.insertId,token });
+        });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
-
-        console.log(error);
     }
 }
 
 export const checkUser = async (req, res) => {
-    console.log(req.body);
     const { username } = req.body;
     try {
-        const oldUser = await UserModal.findOne({ username });
-
-        if (oldUser) return res.json({ message: "Username already exists" });
-        res.status(201).json({ message: "new user" });
+        let sql = `SELECT * FROM users where username = '${username}'`;
+        sqldb.query(sql, (err, rows) => {
+            if(err) throw err;
+            if (rows.length) return res.json({ message: "Username already exists" });
+            res.status(201).json({ message: "new user" });
+        })
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
     }

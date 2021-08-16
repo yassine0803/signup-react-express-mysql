@@ -7,6 +7,7 @@ const createTables = ()=>{
         id INT NOT NULL AUTO_INCREMENT,
         name VARCHAR(255) NULL,
         username VARCHAR(255) NULL,
+        profileImg VARCHAR(255) NULL,
         email VARCHAR(255) NULL,
         password VARCHAR(255) NULL,
         PRIMARY KEY (id))`
