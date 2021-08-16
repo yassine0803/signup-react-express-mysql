@@ -34,11 +34,11 @@ const Signup = () => {
         setUser(oldUser => ({ ...oldUser, galleryImg: [...oldUser.galleryImg, data.filename] }));
     }
     const checkUsername = async () => {
-            const result = await postData('/users/check-user', { username: user.username });
-            if (result.status !== 201)
-                setNewUser(false)
-            else
-                setNewUser(true)
+        const result = await postData('/users/check-user', { username: user.username });
+        if (result.status !== 201)
+            setNewUser(false)
+        else
+            setNewUser(true)
     }
 
     const handleChangePass = (e) => {
@@ -84,9 +84,9 @@ const Signup = () => {
             <h1 className={styles.title}>
                 <span className={styles.title__right}>june</span>fox
             </h1>
+            <h2 className={styles.signup__title}>Sign Up</h2>
+            <p className={styles.signup__paragraph}> You need a JuneFox account to continue</p>
             <div className={styles.signup}>
-                <h2 className={styles.signup__title}>Sign Up</h2>
-                <p className={styles.signup__paragraph}> You need a JuneFox account to continue</p>
                 <form className={styles.form} onSubmit={hundleSubmit}>
                     <div className={styles.form__avatar}>
                         {!user.profileImg &&
