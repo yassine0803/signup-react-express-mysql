@@ -173,7 +173,7 @@
 }
 .gallery_image .gallery{
   height: 110px;
-  width: 110px;
+  width: 100px;
   border: 2px solid #eaeaf5;
   position: relative;
 }
@@ -192,7 +192,7 @@
   display: none;
 }
 .gallery .image_preview{
-  width: 110px;
+  width: 100px;
   height: 110px;
 }
 .gallery_image .avatar_upload{
