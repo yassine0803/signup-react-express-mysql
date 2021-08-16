@@ -1,6 +1,7 @@
 import {sqldb} from '../config/index.js';
-
-
+import { unlinkSync } from 'fs';
+import path from 'path';
+const __dirname = path.resolve();
 export const uploadImage = async (req, res) => {
     const {filename} = req.file;
     return res.json({
@@ -12,6 +13,7 @@ export const editProfileImage = async (req, res) => {
     const { name } = req.params;
     const {filename} = req.file;
     let sql = `UPDATE users SET profileImg = '${filename}' where profileImg = '${name}'`;
+    unlinkSync(`${__dirname}/public/uploads/${name}`);
     try {
         sqldb.query(sql,(err, rows)=>{
             res.status(201).json({filename});
@@ -34,6 +36,7 @@ export const editProfileGallery = async(req, res) => {
     const { name } = req.params;
     const {filename} = req.file;
     const sql = `UPDATE galleryImg SET image = '${filename}' where image = '${name}'`;
+    unlinkSync(`${__dirname}/public/uploads/${name}`);
     try {
         sqldb.query(sql,(err, rows)=>{
             res.status(201).json({filename});
