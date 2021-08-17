@@ -28,14 +28,14 @@ class Signup extends Component {
 
   uploadImageProfile = async (e) => {
     const { data } = await uploadImage("/images/upload", e);
-    this.setState({ user: {  profileImg: data.filename } });
+    this.setState({ user: { ...this.state.user, profileImg: data.filename } });
   };
 
   uploadImageGallery = async (e) => {
     const { data } = await uploadImage("/images/upload", e);
     this.setState({
       user: {
-        
+        ...this.state.user,
         galleryImg: [...this.state.user.galleryImg, data.filename],
       },
     });
@@ -76,12 +76,12 @@ class Signup extends Component {
       this.state.checkPass.number &&
       this.state.checkPass.long
     )
-      this.setState({ user: {  password: e.target.value } });
+      this.setState({ user: { ...this.state.user, password: e.target.value } });
   };
 
   handleChangeInput = (e) => {
     this.setState({
-      user: {  [e.target.name]: e.target.value },
+      user: { ...this.state.user, [e.target.name]: e.target.value },
     });
   };
   //regester user
