@@ -28,14 +28,14 @@ class Signup extends Component {
 
   uploadImageProfile = async (e) => {
     const { data } = await uploadImage("/images/upload", e);
-    this.setState({ user: { ...this.state.user, profileImg: data.filename } });
+    this.setState({ user: {  profileImg: data.filename } });
   };
 
   uploadImageGallery = async (e) => {
     const { data } = await uploadImage("/images/upload", e);
     this.setState({
       user: {
-        ...this.state.user,
+        
         galleryImg: [...this.state.user.galleryImg, data.filename],
       },
     });
@@ -52,23 +52,23 @@ class Signup extends Component {
     let password = e.target.value;
 
     if (password.length >= 8) {
-      this.setState({ checkPass: { ...this.state.checkPass, long: true } });
+      this.setState({ checkPass: { long: true } });
     } else {
-      this.setState({ checkPass: { ...this.state.checkPass, long: false } });
+      this.setState({ checkPass: { long: false } });
     }
     if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
       this.setState({
-        checkPass: { ...this.state.checkPass, caracters: true },
+        checkPass: {  caracters: true },
       });
     } else {
       this.setState({
-        checkPass: { ...this.state.checkPass, caracters: false },
+        checkPass: { caracters: false },
       });
     }
     if (/[0-9]/.test(password) || /[!@#$%^&*]/.test(password)) {
-      this.setState({ checkPass: { ...this.state.checkPass, number: true } });
+      this.setState({ checkPass: { number: true } });
     } else {
-      this.setState({ checkPass: { ...this.state.checkPass, number: false } });
+      this.setState({ checkPass: { number: false } });
     }
 
     if (
@@ -76,12 +76,12 @@ class Signup extends Component {
       this.state.checkPass.number &&
       this.state.checkPass.long
     )
-      this.setState({ user: { ...this.state.user, password: e.target.value } });
+      this.setState({ user: {  password: e.target.value } });
   };
 
   handleChangeInput = (e) => {
     this.setState({
-      user: { ...this.state.user, [e.target.name]: e.target.value },
+      user: {  [e.target.name]: e.target.value },
     });
   };
   //regester user

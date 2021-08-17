@@ -26,25 +26,24 @@ class Profile extends Component {
     const result = await postData("/users/check-user", {
       username: this.state.user.username,
     });
-    if (result.status !== 201) this.setState({ ...this.state, newUser: false });
-    else this.setState({ ...this.state, newUser: true });
+    if (result.status !== 201) this.setState({ newUser: false });
+    else this.setState({ newUser: true });
   };
 
   fetchUser = async () => {
     const { data } = await getData("/users/" + this.state.id);
-    this.setState({ ...this.state, loading: false, user: data });
+    this.setState({ loading: false, user: data });
   };
 
   fetUsergallery = async () => {
     const { data } = await getData("/images/gallery/user/" + this.state.id);
-    this.setState({ ...this.state, profileGallery: data });
+    this.setState({ profileGallery: data });
   };
 
   handleChangeInput = (e) => {
     if (e.target.value.length)
       this.setState({
-        ...this.state,
-        user: { ...this.state.user, [e.target.name]: e.target.value },
+        user: {  [e.target.name]: e.target.value },
       });
   };
   hundleUploadImage = async (e, currentImage) => {
@@ -53,8 +52,7 @@ class Profile extends Component {
       e
     );
     this.setState({
-      ...this.state,
-      user: { ...this.state.user, profileImg: data.filename },
+      user: {  profileImg: data.filename },
     });
   };
   hundleUploadGallery = async (e, currentImage) => {
@@ -66,7 +64,7 @@ class Profile extends Component {
       (obj) => obj.image === currentImage
     );
     this.state.profileGallery[objIndex] = { image: data.filename };
-    this.setState({ ...this.state, profileGallery: this.state.profileGallery });
+    this.setState({ profileGallery: this.state.profileGallery });
   };
 
   hundleSubmit = async () => {
@@ -77,7 +75,7 @@ class Profile extends Component {
       );
       if (status === 201) {
         this.fetchUser();
-        this.setState({ ...this.state, edit: false });
+        this.setState({ edit: false });
       } else {
         console.log("error");
       }
@@ -138,7 +136,7 @@ class Profile extends Component {
                   name="name"
                   placeholder={this.state.user.name}
                   className={styles.input_edit}
-                  onBlur={() => this.setState({ ...this.state, name: false })}
+                  onBlur={() => this.setState({ name: false })}
                   onChange={this.handleChangeInput}
                 />
               )}
@@ -149,7 +147,6 @@ class Profile extends Component {
                   alt=""
                   onClick={() => {
                     this.setState({
-                      ...this.state,
                       name: !this.state.name,
                       username: false,
                     });
@@ -174,7 +171,7 @@ class Profile extends Component {
                   onChange={this.handleChangeInput}
                   onBlur={() => {
                     this.checkUsername();
-                    this.setState({ ...this.state, username: false });
+                    this.setState({ username: false });
                   }}
                 />
               )}
@@ -185,7 +182,6 @@ class Profile extends Component {
                   alt=""
                   onClick={() => {
                     this.setState({
-                      ...this.state,
                       username: !this.state.username,
                       name: false,
                     });
@@ -203,7 +199,7 @@ class Profile extends Component {
               onClick={() =>
                 this.state.edit
                   ? this.hundleSubmit()
-                  : this.setState({ ...this.state, edit: true })
+                  : this.setState({ edit: true })
               }
             >
               Edit Profile
