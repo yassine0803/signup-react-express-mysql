@@ -11,7 +11,7 @@ export const signup = async (req, res) => {
     try {
 
         const hashedPassword = await bcrypt.hash(password, 12);
-        const sql = `INSERT INTO users (name, username, profileImg, email, password) VALUES ('${name}','${username}','${profileImg}','${email}','${hashedPassword}')`;
+        const sql = `INSERT INTO users (name, username, profileImg, email, password) VALUES ('${name.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')}','${username.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')}','${profileImg}','${email.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')}','${hashedPassword}')`;
         sqldb.query(sql, (err, user) => {
             if (err) throw err;
             galleryImg.forEach((imageName, index) => galleryImg[index] = [user.insertId, imageName]);
