@@ -1,4 +1,3 @@
-@import url(//db.onlinewebfonts.com/c/0b51833ff62e4af8acb5fd3e2bf59e97?family=SF+Pro+Display);
 .root {
   font-family: "Vijaya-Bold";
   width: 100%;
@@ -99,15 +98,17 @@
   grid-row-gap: 5px;
   width: 400px;
   height: 400px;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile__gallery .image_container {
-  height: 400px;
+  height: 500px;
   position: relative;
 }
 
 .profile__gallery .gallery_image {
-  width: 200px;
+  width: 300px;
   height: 100%;
 }
 

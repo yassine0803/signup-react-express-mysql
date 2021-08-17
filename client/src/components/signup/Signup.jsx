@@ -89,10 +89,10 @@ class Signup extends Component {
     e.preventDefault();
     console.log(this.state.user);
     if (
-      this.state.newUser &&
-      this.state.checkPass.caracters &&
+      this.state.newUser /*&&
+      /*this.state.checkPass.caracters &&
       this.state.checkPass.number &&
-      this.state.checkPass.long
+      this.state.checkPass.long*/
     ) {
       try {
         const { data } = await postData("/users/signup", this.state.user);
