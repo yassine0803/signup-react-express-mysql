@@ -28,8 +28,8 @@ export const signup = async (req, res) => {
 export const checkUser = async (req, res) => {
     const { username } = req.body;
     try {
-        let sql = `SELECT * FROM users where username = '${username}'`;
-        sqldb.query(sql, (err, rows) => {
+        let sql = `SELECT * FROM users where username = ?`;
+        sqldb.query(sql,[username], (err, rows) => {
             if (err) throw err;
             if (rows.length) return res.json({ message: "Username already exists" });
             res.status(201).json({ message: "new user" });
@@ -41,9 +41,9 @@ export const checkUser = async (req, res) => {
 
 export const getUser = async (req, res) => {
     const { id } = req.params;
-    const sql = `SELECT id, name, username, profileImg FROM users where id = ${id}`;
+    const sql = `SELECT id, name, username, profileImg FROM users where id = ?`;
     try {
-        sqldb.query(sql, (err, rows) => {
+        sqldb.query(sql, [id], (err, rows) => {
             res.status(201).json(...rows);
         })
     } catch (error) {
@@ -55,9 +55,9 @@ export const getUser = async (req, res) => {
 export const editUser = async (req, res) => {
     const { id } = req.params;
     const { name, username } = req.body;
-    const sql = `UPDATE users SET name='${name}', username = '${username}' where id = ${id}`;
+    const sql = `UPDATE users SET name= ? , username = ? where id = ?`;
 
-    sqldb.query(sql, (err, rows) => {
+    sqldb.query(sql, [name, username, id], (err, rows) => {
         if(err) throw err;
         res.status(201).json(rows);
     })
