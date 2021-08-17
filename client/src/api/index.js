@@ -1,24 +1,26 @@
-import axios from 'axios';
-export const url = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+import axios from "axios";
+export const url =
+  /* process.env.REACT_APP_API_URL ||  */ "http://localhost:5000";
 const API = axios.create({ baseURL: url });
 
 API.interceptors.request.use((req) => {
-    if (localStorage.getItem('profile')) {
-        req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
-    }
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+  }
 
-    return req;
+  return req;
 });
 
 export const uploadImage = async (endpoint, e) => {
-    try {
-        const fd = new FormData();
-        fd.append('file', e.target.files[0]);
-        return await API.post(endpoint, fd, {});
-    } catch (error) {
-        console.log(error);
-    }
-
+  try {
+    const fd = new FormData();
+    fd.append("file", e.target.files[0]);
+    return await API.post(endpoint, fd, {});
+  } catch (error) {
+    console.log(error);
+  }
 };
 export const postData = (endpoint, formData) => API.post(endpoint, formData);
 export const getData = (endpoint) => API.get(endpoint);
