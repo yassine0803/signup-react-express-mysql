@@ -24,24 +24,44 @@ const Signup = () => {
   });
 
   const uploadImageProfile = async (e) => {
-    const { data } = await uploadImage("/images/upload", e);
-    setUser((oldUser) => ({ ...oldUser, profileImg: data.filename }));
+    uploadImage("/images/upload", e)
+      .then((response) => {
+        if (response.status === 201)
+          setUser((oldUser) => ({
+            ...oldUser,
+            profileImg: response.data.filename,
+          }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const uploadImageGallery = async (e) => {
-    const { data } = await uploadImage("/images/upload", e);
-    setUser((oldUser) => ({
-      ...oldUser,
-      galleryImg: [...oldUser.galleryImg, data.filename],
-    }));
+    uploadImage("/images/upload", e)
+      .then((response) => {
+        if (response.status === 201)
+          setUser((oldUser) => ({
+            ...oldUser,
+            galleryImg: [...oldUser.galleryImg, response.data.filename],
+          }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const checkUsername = async () => {
     console.log("Checking");
-    const result = await postData("/users/check-user", {
+    postData("/users/check-user", {
       username: user.username,
-    });
-    if (result.status !== 201) setNewUser(false);
-    else setNewUser(true);
+    })
+      .then((response) => {
+        if (response.status !== 201) setNewUser(false);
+      })
+      .catch((error) => {
+        setNewUser(true);
+        console.log(error);
+      });
   };
 
   const handleChangePass = (e) => {
@@ -62,7 +82,7 @@ const Signup = () => {
   const handleChangeInput = (e) => {
     setUser((values) => ({
       ...values,
-      [e.target.name]: e.target.value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""),
+      [e.target.name]: e.target.value.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, ""),
     }));
   };
   //regester user
@@ -75,15 +95,18 @@ const Signup = () => {
       checkPass.long &&
       user.name &&
       user.username &&
-      user.email
+      user.email &&
+      user.profileImg &&
+      user.galleryImg.length
     ) {
-      try {
-        const { data } = await postData("/users/signup", user);
-        localStorage.setItem("profile", JSON.stringify({ ...data }));
-        history.push("/profile/" + data.userId);
-      } catch (error) {
-        console.log(error);
-      }
+      await postData("/users/signup", user)
+        .then((response) => {
+          localStorage.setItem("profile", JSON.stringify({ ...response.data }));
+          history.push("/profile/" + response.data.userId);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   return (
